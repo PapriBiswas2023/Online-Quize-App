@@ -28,7 +28,7 @@ public class UserLogin extends JFrame implements ActionListener {
         JPanel background = new JPanel() {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(58, 123, 213), 0, getHeight(), new Color(58, 96, 115));
+                GradientPaint gp = new GradientPaint(0, 0, new Color(58), 0, getHeight(), new Color(58, 96, 115));
                 g2.setPaint(gp);
                 g2.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -53,7 +53,8 @@ public class UserLogin extends JFrame implements ActionListener {
         // Login Panel
         JPanel formPanel = new JPanel();
         formPanel.setLayout(null);
-        formPanel.setBackground(new Color(255, 255, 255, 230));
+        formPanel.setBackground(new Color(255, 255, 255, 40));
+        formPanel.setOpaque(false);
         formPanel.setBounds(550, 200, 500, 400);
         formPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215), 2),
@@ -62,12 +63,13 @@ public class UserLogin extends JFrame implements ActionListener {
 
         JLabel heading = new JLabel("User Login");
         heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        heading.setForeground(new Color(255, 255, 255));
         heading.setBounds(170, 30, 200, 30);
-        heading.setForeground(new Color(33, 37, 41));
         formPanel.add(heading);
 
         JLabel email = new JLabel("Email:");
         email.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        email.setForeground(new Color(255, 255, 255));
         email.setBounds(50, 100, 100, 25);
         formPanel.add(email);
 
@@ -77,6 +79,7 @@ public class UserLogin extends JFrame implements ActionListener {
 
         JLabel password = new JLabel("Password:");
         password.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        password.setForeground(new Color(255, 255, 255));
         password.setBounds(50, 160, 100, 25);
         formPanel.add(password);
 
@@ -90,7 +93,7 @@ public class UserLogin extends JFrame implements ActionListener {
         showPassword.setBackground(new Color(255, 255, 255, 230));
         formPanel.add(showPassword);
 
-        showPassword.addActionListener(e -> {
+        showPassword.addActionListener(_ -> {
             if (showPassword.isSelected()) {
                 pfPassword.setEchoChar((char) 0); 
             } else {

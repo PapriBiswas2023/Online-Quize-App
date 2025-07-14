@@ -26,7 +26,7 @@ public class UserRegister extends JFrame implements ActionListener {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(58, 123, 213), 0, getHeight(), new Color(58, 96, 115));
+                GradientPaint gp = new GradientPaint(0, 0, new Color(58), 0, getHeight(), new Color(58, 96, 115));
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -50,18 +50,20 @@ public class UserRegister extends JFrame implements ActionListener {
 
         // Form panel
         JPanel formPanel = new JPanel(null);
-        formPanel.setBackground(new Color(255, 255, 255, 240));
+        formPanel.setBackground(new Color(255, 255, 255, 40));
+        formPanel.setOpaque(false);
         formPanel.setBounds(550, 200, 500, 400);
         formPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 2));
         mainPanel.add(formPanel);
 
         JLabel heading = new JLabel("User Registration");
         heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        heading.setForeground(new Color(33, 37, 41));
+        heading.setForeground(new Color(255, 255, 255));
         heading.setBounds(130, 20, 300, 40);
         formPanel.add(heading);
 
         JLabel nameLabel = new JLabel("Full Name:");
+        nameLabel.setForeground(new Color(255, 255, 255));
         nameLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         nameLabel.setBounds(50, 80, 100, 25);
         formPanel.add(nameLabel);
@@ -72,6 +74,7 @@ public class UserRegister extends JFrame implements ActionListener {
         formPanel.add(tfName);
 
         JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(new Color(255, 255, 255));
         emailLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         emailLabel.setBounds(50, 130, 100, 25);
         formPanel.add(emailLabel);
@@ -82,6 +85,7 @@ public class UserRegister extends JFrame implements ActionListener {
         formPanel.add(tfEmail);
 
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(new Color(255, 255, 255));
         passwordLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         passwordLabel.setBounds(50, 180, 100, 25);
         formPanel.add(passwordLabel);
@@ -92,6 +96,7 @@ public class UserRegister extends JFrame implements ActionListener {
         formPanel.add(pfPassword);
 
         JLabel confirmLabel = new JLabel("Confirm Password:");
+        confirmLabel.setForeground(new Color(255, 255, 255));
         confirmLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         confirmLabel.setBounds(50, 230, 140, 25);
         formPanel.add(confirmLabel);
@@ -102,10 +107,11 @@ public class UserRegister extends JFrame implements ActionListener {
         formPanel.add(pfConfirmPassword);
 
         showPassword = new JCheckBox("Show Passwords");
+        showPassword.setForeground(new Color(255, 255, 255));
         showPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         showPassword.setBounds(180, 270, 160, 25);
         showPassword.setOpaque(false);
-        showPassword.addActionListener(e -> {
+        showPassword.addActionListener(_ -> {
             boolean visible = showPassword.isSelected();
             pfPassword.setEchoChar(visible ? (char) 0 : '•');
             pfConfirmPassword.setEchoChar(visible ? (char) 0 : '•');
