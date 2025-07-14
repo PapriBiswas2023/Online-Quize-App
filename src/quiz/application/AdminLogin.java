@@ -52,7 +52,6 @@ public class AdminLogin extends JFrame implements ActionListener {
 
         // Login Panel
         JPanel formPanel = new JPanel(null);
-        //formPanel.setBackground(new Color(255, 255, 255, 230));
         formPanel.setBackground(new Color(255, 255, 255, 80));
         formPanel.setOpaque(false);
 
