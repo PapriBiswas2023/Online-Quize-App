@@ -32,7 +32,7 @@ public class Home extends JFrame implements ActionListener {
         JPanel background = new JPanel() {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(58, 123, 213), 0, getHeight(), new Color(58, 96, 115));
+                GradientPaint gp = new GradientPaint(0, 0, new Color(58), 0, getHeight(), new Color(58, 96, 115));
                 g2.setPaint(gp);
                 g2.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -56,14 +56,15 @@ public class Home extends JFrame implements ActionListener {
 
         // Button Panel Style
         JPanel buttonPanel = new JPanel(null);
-        buttonPanel.setBackground(new Color(255, 255, 255, 230));
+        buttonPanel.setBackground(new Color(255, 255, 255, 40));
+        buttonPanel.setOpaque(false);
         buttonPanel.setBounds(600, 180, 500, 400);
         buttonPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 2));
         background.add(buttonPanel);
 
         JLabel menuTitle = new JLabel("Main Menu");
         menuTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        menuTitle.setForeground(new Color(33, 37, 41));
+        menuTitle.setForeground(new Color(255, 255, 255));
         menuTitle.setBounds(170, 30, 200, 40);
         buttonPanel.add(menuTitle);
 
