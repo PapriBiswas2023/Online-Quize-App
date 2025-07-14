@@ -28,7 +28,7 @@ public class Home extends JFrame implements ActionListener {
         // App Icon
         setIconImage(new ImageIcon("icons/Home.jpeg").getImage());
 
-        // Gradient background
+        // Gradient background design
         JPanel background = new JPanel() {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -56,8 +56,12 @@ public class Home extends JFrame implements ActionListener {
 
         // Button Panel Style
         JPanel buttonPanel = new JPanel(null);
+<<<<<<< HEAD
         buttonPanel.setBackground(new Color(255, 255, 255, 40));
         buttonPanel.setOpaque(false);
+=======
+        buttonPanel.setBackground(new Color(255, 255, 255, 20));
+>>>>>>> 8d87d84798bca6852d8d47bc6c4a933809f467de
         buttonPanel.setBounds(600, 180, 500, 400);
         buttonPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 2));
         background.add(buttonPanel);
