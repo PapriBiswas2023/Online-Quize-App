@@ -322,7 +322,5 @@ public class UserDashboard extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new UserDashboard("Roni Seikh"));
-    }
+   
 }

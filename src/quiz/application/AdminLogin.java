@@ -106,6 +106,13 @@ public class AdminLogin extends JFrame implements ActionListener {
                 }
             }
         });
+        // add to login credential text here
+
+        JLabel subtexted = new JLabel("<html>Email: admin@papri.com<br>Password: admin@123</html>");
+        subtexted.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        subtexted.setForeground(new Color(255, 255, 255));
+        subtexted.setBounds(150, 30, 300, 600);
+        formPanel.add(subtexted);
 
         // Login Button
         login = new JButton("Login");
