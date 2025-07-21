@@ -24,3 +24,6 @@ Thumbs.db
 # FlatLaf or other 3rd-party JARs
 lib/
 *.jar
+
+# text files
+*.txt
