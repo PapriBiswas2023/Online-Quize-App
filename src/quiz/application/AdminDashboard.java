@@ -17,6 +17,43 @@ public class AdminDashboard extends JFrame implements ActionListener {
     JButton btnAdd, btnSave, btnBackAdd, btnBackEdit, btnBackDelete, btnBackView;
     CardLayout cardLayout;
 
+    // UserData class to hold user name and email
+    static class UserData {
+        private String name;
+        private String email;
+
+        public UserData(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+        public String getName() { return name; }
+        public String getEmail() { return email; }
+    }
+
+    // Helper method to extract user data from userdetails.txt
+    private List<UserData> readUserDataFile(String filename) {
+        List<UserData> users = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            String name = null, email = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Name:")) {
+                    name = line.substring(5).trim();
+                } else if (line.startsWith("Email:")) {
+                    email = line.substring(6).trim();
+                }
+                if (name != null && email != null) {
+                    users.add(new UserData(name, email));
+                    name = null;
+                    email = null;
+                }
+            }
+        } catch (IOException e) {
+            // handle error
+        }
+        return users;
+    }
+
     public AdminDashboard() {
         setTitle("Quiz Time! - Admin Dashboard");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -34,6 +71,56 @@ public class AdminDashboard extends JFrame implements ActionListener {
         add(mainPanel, BorderLayout.CENTER);
 
         setVisible(true);
+    }
+
+    // Implementation of createMainPanel()
+    private JPanel createMainPanel() {
+        cardLayout = new CardLayout();
+        JPanel panel = new JPanel(cardLayout);
+
+        // Default panel (welcome/info)
+        JPanel defaultPanel = createDefaultPanel();
+        panel.add(defaultPanel, "default");
+
+        // Add Question panel
+        JPanel addQuestionPanel = createAddQuestionPanel();
+        panel.add(addQuestionPanel, "addQuestion");
+
+        // Edit Quiz panel
+        JPanel editQuizPanel = createEditQuizPanel();
+        panel.add(editQuizPanel, "editQuiz");
+
+        // Delete Quiz panel
+        JPanel deleteQuizPanel = createDeleteQuizPanel();
+        panel.add(deleteQuizPanel, "deleteQuiz");
+
+        // View Quiz panel
+        JPanel viewQuizPanel = createViewQuizPanel();
+        panel.add(viewQuizPanel, "viewQuiz");
+
+        // View Users panel
+        JPanel viewUsersPanel = createStyledTextPanel(getUsersContent(), "Registered Users");
+        panel.add(viewUsersPanel, "viewUsers");
+
+        // View Results panel
+        JPanel viewResultsPanel = createStyledTextPanel(readFile("results.txt"), "Quiz Results");
+        panel.add(viewResultsPanel, "viewResults");
+
+        cardLayout.show(panel, "default");
+        return panel;
+    }
+
+    // Helper to get users content for the view users panel
+    private String getUsersContent() {
+        List<UserData> users = readUserDataFile("userdetails.txt");
+        if (users.isEmpty()) return "\u26A0 No users found.";
+        StringBuilder sb = new StringBuilder();
+        int idx = 1;
+        for (UserData user : users) {
+            sb.append(idx++).append(". Name: ").append(user.getName())
+              .append(" | Email: ").append(user.getEmail()).append("\n");
+        }
+        return sb.toString();
     }
 
     private JPanel createSidebar() {
@@ -97,22 +184,12 @@ public class AdminDashboard extends JFrame implements ActionListener {
         return wrapper;
     }
 
-    private JPanel createMainPanel() {
-        cardLayout = new CardLayout();
-        JPanel panel = new JPanel(cardLayout);
+// (UserData class and readFile method moved to class scope)
 
-        panel.add(createDefaultPanel(), "default");
-        panel.add(createAddQuestionPanel(), "addQuestion");
-        panel.add(createEditQuizPanel(), "editQuiz");
-        panel.add(createDeleteQuizPanel(), "deleteQuiz");
-        panel.add(createViewQuizPanel(), "viewQuiz");
-        panel.add(createStyledTextPanel(readFile("userdetails.txt"), "\uD83D\uDC65 Registered Users"), "viewUsers");
-        panel.add(createStyledTextPanel(readFile("results.txt"), "\uD83D\uDCCA Quiz Results"), "viewResults");
 
-        cardLayout.show(panel, "default");
-        return panel;
-    }
 
+    
+// view results
     private JPanel createStyledTextPanel(String content, String titleText) {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -136,7 +213,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
 
         JButton backBtn = new JButton("\u2B05 Back");
         styleButton(backBtn, new Color(241, 196, 15));
-        backBtn.addActionListener(e -> cardLayout.show(mainPanel, "default"));
+        backBtn.addActionListener(_ -> cardLayout.show(mainPanel, "default"));
 
         JPanel footer = new JPanel();
         footer.setBackground(Color.WHITE);
@@ -297,7 +374,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
         styleButton(btnSave, new Color(46, 204, 113));
         styleButton(btnBackAdd, new Color(241, 196, 15));
 
-        btnAdd.addActionListener(e -> {
+        btnAdd.addActionListener(_ -> {
             String topic = tfTopic.getText().trim();
             String question = tfQuestion.getText().trim();
             String optA = tfOption1.getText().trim();
@@ -347,11 +424,11 @@ public class AdminDashboard extends JFrame implements ActionListener {
             }
         });
 
-        btnSave.addActionListener(e -> {
+        btnSave.addActionListener(_ -> {
             statusArea.append("💾 Save clicked - already saved to file.\n");
         });
 
-        btnBackAdd.addActionListener(e -> cardLayout.show(mainPanel, "default"));
+        btnBackAdd.addActionListener(_ -> cardLayout.show(mainPanel, "default"));
 
         buttonPanel.add(btnAdd); buttonPanel.add(btnSave); buttonPanel.add(btnBackAdd);
         gbc.gridy++;
@@ -382,7 +459,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
 
         btnBackView = new JButton("\u2B05 Back");
         styleButton(btnBackView, new Color(241, 196, 15));
-        btnBackView.addActionListener(e -> cardLayout.show(mainPanel, "default"));
+        btnBackView.addActionListener(_ -> cardLayout.show(mainPanel, "default"));
 
         JPanel container = new JPanel(new BorderLayout());
         container.add(scrollPane, BorderLayout.CENTER);
@@ -416,7 +493,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
         JButton btnSaveEdit = new JButton("\uD83D\uDCBE Save Changes");
         styleButton(btnSaveEdit, new Color(46, 204, 113));
 
-        btnSaveEdit.addActionListener(e -> {
+        btnSaveEdit.addActionListener(_ -> {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("examquestion.txt"))) {
                 for (Component comp : listPanel.getComponents()) {
                     if (comp instanceof JPanel cardPanel) {
@@ -452,7 +529,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
 
         btnBackEdit = new JButton("\u2B05 Back");
         styleButton(btnBackEdit, new Color(241, 196, 15));
-        btnBackEdit.addActionListener(e -> cardLayout.show(mainPanel, "default"));
+        btnBackEdit.addActionListener(_ -> cardLayout.show(mainPanel, "default"));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setBackground(new Color(245, 245, 250));
@@ -490,12 +567,12 @@ public class AdminDashboard extends JFrame implements ActionListener {
 
         btnBackDelete = new JButton("\u2B05 Back");
         styleButton(btnBackDelete, new Color(241, 196, 15));
-        btnBackDelete.addActionListener(e -> cardLayout.show(mainPanel, "default"));
+        btnBackDelete.addActionListener(_ -> cardLayout.show(mainPanel, "default"));
 
         JButton btnSaveDelete = new JButton("\uD83D\uDCBE Save Changes");
         styleButton(btnSaveDelete, new Color(46, 204, 113));
 
-        btnSaveDelete.addActionListener(e -> {
+        btnSaveDelete.addActionListener(_ -> {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("examquestion.txt"))) {
                 for (Question q : questions) {
                     writer.write("Topic:" + q.topic + "\n");
@@ -693,7 +770,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
         styleButton(btnDelete, new Color(231, 76, 60));
         btnDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        btnDelete.addActionListener(e -> {
+        btnDelete.addActionListener(_ -> {
             allQuestions.remove(q);
             deleted.add(q);
             container.remove(card);
@@ -775,7 +852,7 @@ public class AdminDashboard extends JFrame implements ActionListener {
         styleButton(btnEdit, new Color(52, 152, 219));
         btnEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        btnEdit.addActionListener(e -> {
+        btnEdit.addActionListener(_ -> {
             boolean isEditing = !tfTopic.isEditable();
             for (JTextField f : allFields) {
                 f.setEditable(isEditing);
