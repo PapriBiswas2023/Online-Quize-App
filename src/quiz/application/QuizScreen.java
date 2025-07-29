@@ -74,7 +74,7 @@ public class QuizScreen extends JFrame implements ActionListener {
         lifelineBtn = new JButton("50:50 Lifeline");
         lifelineBtn.setBounds(100, 500, 150, 40);
         lifelineBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lifelineBtn.addActionListener(e -> applyLifeline());
+        lifelineBtn.addActionListener(_ -> applyLifeline());
         styleButton(lifelineBtn);
         add(lifelineBtn);
 
@@ -91,7 +91,7 @@ public class QuizScreen extends JFrame implements ActionListener {
         submitBtn.setBounds(420, 500, 100, 40);
         submitBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         submitBtn.setVisible(false);
-        submitBtn.addActionListener(e -> evaluateAnswer());
+        submitBtn.addActionListener(_ -> evaluateAnswer());
         styleButton(submitBtn);
         add(submitBtn);
 
@@ -107,7 +107,7 @@ public class QuizScreen extends JFrame implements ActionListener {
 
         showQuestion(currentQuestion);
 
-        swingTimer = new Timer(1000, e -> {
+        swingTimer = new Timer(1000, _ -> {
             timeLeft--;
             timerLabel.setText("Time Left: " + timeLeft);
             if (timeLeft == 0) {
